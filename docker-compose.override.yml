@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  dolibarr:
+    volumes:
+      # Only Modules Editas
+      - ./dolibarr_fk/htdocs/custom:/var/www/html/htdocs/custom
+
+      # System configuration
+      - ./dolibarr_fk/conf/conf.php:/var/www/html/conf/conf.php
+
+      # Generated files/documents
+      - ./documents:/var/www/documents
+
+      # Optional: If you edit vendor
+      - ./dolibarr_fk/vendor:/var/www/html/vendor
+
+      # Optional: If you get to play public (Assets, etc.)
+      - ./dolibarr_fk/htdocs/public:/var/www/html/htdocs/public

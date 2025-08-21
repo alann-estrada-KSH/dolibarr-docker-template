@@ -21,6 +21,7 @@ COPY ./dolibarr /var/www/html
 
 RUN chown -R www-data:www-data /var/www/html
 
-RUN mkdir -p /var/www/documents && chown -R www-data:www-data /var/www/documents
+RUN chown -R www-data:www-data /var/www/html \
+    && mkdir -p /var/www/documents && chown -R www-data:www-data /var/www/documents
 
 EXPOSE 80

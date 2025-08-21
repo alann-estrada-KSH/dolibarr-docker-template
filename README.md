@@ -65,6 +65,51 @@ Before you begin, ensure you have the following installed:
 
 ---
 
+## Development Workflow & Considerations
+
+This template separates **live-editable files** (mounted from your host) from the **Dolibarr core** (stored in the Docker image). This ensures fast performance while keeping flexibility during development.
+
+### Files edited live (no rebuild needed)
+
+Changes here are instantly reflected in the running container:
+
+* `htdocs/custom/` → your custom modules
+* `htdocs/public/` → public assets you may override
+* `vendor/` → Composer dependencies
+* `conf/conf.php` → Dolibarr configuration
+* `/var/www/documents` → uploaded/generated documents
+
+### Files inside the Docker image (rebuild required)
+
+Changes here **require a rebuild**:
+
+* Dolibarr core files (outside `custom/` and `public/`)
+* Any updates to the `Dockerfile`
+
+To rebuild:
+
+```bash
+docker-compose build dolibarr
+docker-compose up -d dolibarr
+```
+
+> ⚠️ **Database safety**: Your MariaDB data lives in the `db_data` volume. Rebuilding Dolibarr will NOT delete your data unless you explicitly run `docker-compose down -v`.
+
+### Updating Dolibarr core
+
+When pulling a new Dolibarr release:
+
+1. Replace the `dolibarr` folder locally.
+2. Run:
+
+   ```bash
+   docker-compose build dolibarr
+   docker-compose up -d dolibarr
+   ```
+3. Access Dolibarr in your browser — if the version has schema updates, you’ll be guided through the upgrade wizard.
+
+---
+
 ## Key Notes
 
 * **Data persistence**: MariaDB data is stored in a Docker volume (`db_data`) to prevent loss during container restarts.
